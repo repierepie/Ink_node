@@ -4,12 +4,13 @@ services:
     restart: unless-stopped
     env_file:
       - ./envs/common/healthcheck.env
+      - ./envs/${NETWORK_NAME}/healthcheck.env
       - .env
     ports:
       - ${PORT__HEALTHCHECK_METRICS:-7300}:7300
 
   op-geth:
-    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth:v1.101411.4
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth:v1.101411.6
     restart: unless-stopped
     stop_grace_period: 5m
     entrypoint: /scripts/start-op-geth.sh
@@ -30,7 +31,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   op-node:
-    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.10.2
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.10.3
     restart: unless-stopped
     stop_grace_period: 5m
     entrypoint: /scripts/start-op-node.sh
