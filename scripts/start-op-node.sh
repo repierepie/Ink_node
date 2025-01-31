@@ -7,10 +7,11 @@ while [ ! -f /shared/initialized.txt ]; do
   sleep 1
 done
 
-if [ -n "${IS_CUSTOM_CHAIN}" ]; then
-  export EXTENDED_ARG="${EXTENDED_ARG:-} --rollup.config=/chainconfig/rollup.json"
-else
-  export EXTENDED_ARG="${EXTENDED_ARG:-} --network=$NETWORK_NAME --rollup.load-protocol-versions=true --rollup.halt=major"
+export EXTENDED_ARG="${EXTENDED_ARG:-} --network=$NETWORK_NAME --rollup.load-protocol-versions=true --rollup.halt=major"
+
+# Override Holocene
+if [ ! -z "$OVERRIDE_HOLOCENE" ]; then
+  EXTENDED_ARG="$EXTENDED_ARG --override.holocene=$OVERRIDE_HOLOCENE"
 fi
 
 # Start op-node.
